@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KadirliApp - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>🏛️ KadirliApp Admin Panel</h1>
+            <p>Yönetim Paneli - Modüllere erişmek için aşağıdaki kartları kullanın</p>
+        </header>
+
+        <nav class="admin-nav">
+            <div class="nav-grid" id="navGrid">
+                <a href="dashboard.html" class="nav-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <div class="nav-icon">📊</div>
+                    <h2 style="color: white;">Dashboard & Analitik</h2>
+                    <p style="color: rgba(255,255,255,0.9);">Kullanıcı davranış analizi ve istatistikler</p>
+                </a>
+                <a href="users.html" class="nav-card" id="usersCard" style="display: none;">
+                    <div class="nav-icon">👥</div>
+                    <h2>Kullanıcı Yönetimi</h2>
+                    <p>User management</p>
+                </a>
+                <a href="news.html" class="nav-card">
+                    <div class="nav-icon">📰</div>
+                    <h2>Haberler</h2>
+                    <p>News yönetimi</p>
+                </a>
+                <a href="pharmacy.html" class="nav-card">
+                    <div class="nav-icon">💊</div>
+                    <h2>Eczaneler</h2>
+                    <p>Pharmacy yönetimi</p>
+                </a>
+                <a href="death-notices.html" class="nav-card">
+                    <div class="nav-icon">📋</div>
+                    <h2>Vefat İlanları</h2>
+                    <p>DeathNotice yönetimi</p>
+                </a>
+                <a href="ads.html" class="nav-card">
+                    <div class="nav-icon">📢</div>
+                    <h2>Reklamlar</h2>
+                    <p>Ads yönetimi</p>
+                </a>
+                <a href="campaigns.html" class="nav-card">
+                    <div class="nav-icon">🎯</div>
+                    <h2>Kampanyalar</h2>
+                    <p>Campaign yönetimi</p>
+                </a>
+                <a href="events.html" class="nav-card">
+                    <div class="nav-icon">📅</div>
+                    <h2>Etkinlikler</h2>
+                    <p>Event yönetimi</p>
+                </a>
+                <a href="places.html" class="nav-card">
+                    <div class="nav-icon">📍</div>
+                    <h2>Yerler</h2>
+                    <p>Place yönetimi</p>
+                </a>
+            </div>
+        </nav>
+
+        <footer class="admin-footer">
+            <p>API: <code>http://localhost:5000</code></p>
+        </footer>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Admin ise kullanıcı yönetimi kartını göster
+        document.addEventListener('DOMContentLoaded', () => {
+            if (auth.canManageUsers()) {
+                document.getElementById('usersCard').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
+

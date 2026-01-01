@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px var(--shadow);
+        }
+
+        .chart-container h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        .full-width-chart {
+            grid-column: 1 / -1;
+        }
+
+        .refresh-btn {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <a href="index.html" class="back-btn">← Modüller</a>
+                <div>
+                    <h1>📊 Dashboard & Analitik</h1>
+                    <p>Kullanıcı Davranış Analizi</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="toolbar">
+                <button class="btn btn-secondary refresh-btn" onclick="loadDashboard()">
+                    🔄 Yenile
+                </button>
+            </div>
+
+            <!-- Özet Kartlar -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-card-value" id="totalInteractions">0</div>
+                            <div class="stat-card-label">Toplam Etkileşim</div>
+                        </div>
+                        <div class="stat-card-icon">👥</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-card-value" id="todayInteractions">0</div>
+                            <div class="stat-card-label">Bugünkü Etkileşim</div>
+                        </div>
+                        <div class="stat-card-icon">📈</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-card-value" id="last7DaysInteractions">0</div>
+                            <div class="stat-card-label">Son 7 Gün</div>
+                        </div>
+                        <div class="stat-card-icon">📅</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grafikler -->
+            <div class="charts-grid">
+                <!-- Pasta Grafiği - Modül Kullanımı -->
+                <div class="chart-container">
+                    <h3>📊 Modül Kullanım Oranları</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="moduleUsageChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Bar Grafiği - En Popüler Kampanyalar -->
+                <div class="chart-container">
+                    <h3>🏆 En Popüler 5 Kampanya</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="topCampaignsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Çizgi Grafiği - Son 7 Gün -->
+                <div class="chart-container full-width-chart">
+                    <h3>📈 Son 7 Gündeki Etkileşim Trendi</h3>
+                    <div class="chart-wrapper" style="height: 350px;">
+                        <canvas id="dailyInteractionsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
+

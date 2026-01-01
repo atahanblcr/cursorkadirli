@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haberler - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <a href="index.html" class="back-btn">← Ana Sayfa</a>
+                <div>
+                    <h1>📰 Haberler Yönetimi</h1>
+                    <p>News CRUD İşlemleri</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="toolbar">
+                <button class="btn btn-primary" id="addBtn" onclick="openAddModal()" style="display: none;">
+                    ➕ Yeni Haber Ekle
+                </button>
+                <button class="btn btn-secondary" onclick="loadNews()">
+                    🔄 Yenile
+                </button>
+                <select id="filterPublished" class="filter-select" onchange="loadNews()">
+                    <option value="">Tümü</option>
+                    <option value="true">Yayınlanan</option>
+                    <option value="false">Yayınlanmayan</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table id="newsTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Başlık</th>
+                            <th>Kategori</th>
+                            <th>Kaynak</th>
+                            <th>Yayınlanan</th>
+                            <th>Görüntülenme</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="newsTableBody">
+                        <tr>
+                            <td colspan="7" class="loading">Yükleniyor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Yeni Haber Ekle</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="newsForm" onsubmit="saveNews(event)">
+                <input type="hidden" id="newsId">
+                
+                <div class="form-group">
+                    <label for="title">Başlık *</label>
+                    <input type="text" id="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">İçerik *</label>
+                    <textarea id="content" rows="6" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="summary">Özet</label>
+                    <textarea id="summary" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Kategori *</label>
+                    <input type="text" id="category" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="source">Kaynak</label>
+                    <input type="text" id="source">
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrls">Görsel URL'leri (JSON Array veya virgülle ayrılmış)</label>
+                    <textarea id="imageUrls" rows="3" placeholder='["url1", "url2"] veya url1, url2'></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="isPublished">
+                            Yayınlanan
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewCount">Görüntülenme Sayısı</label>
+                        <input type="number" id="viewCount" value="0" min="0">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="publishedAt">Yayın Tarihi</label>
+                        <input type="datetime-local" id="publishedAt">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="news.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (auth.canCreate()) {
+                document.getElementById('addBtn').style.display = 'inline-flex';
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkinlikler - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <a href="index.html" class="back-btn">← Ana Sayfa</a>
+                <div>
+                    <h1>📅 Etkinlikler Yönetimi</h1>
+                    <p>Event CRUD İşlemleri</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="toolbar">
+                <button class="btn btn-primary" id="addBtn" onclick="openAddModal()" style="display: none;">
+                    ➕ Yeni Etkinlik Ekle
+                </button>
+                <button class="btn btn-secondary" onclick="loadEvents()">
+                    🔄 Yenile
+                </button>
+                <button class="btn btn-secondary" onclick="loadUpcomingEvents()">
+                    🔮 Yaklaşan Etkinlikler
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table id="eventsTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Başlık</th>
+                            <th>Etkinlik Tarihi</th>
+                            <th>Konum</th>
+                            <th>Aktif</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTableBody">
+                        <tr>
+                            <td colspan="6" class="loading">Yükleniyor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Yeni Etkinlik Ekle</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="eventForm" onsubmit="saveEvent(event)">
+                <input type="hidden" id="eventId">
+                
+                <div class="form-group">
+                    <label for="title">Başlık *</label>
+                    <input type="text" id="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Açıklama</label>
+                    <textarea id="description" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDate">Etkinlik Tarihi *</label>
+                    <input type="datetime-local" id="eventDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="locationName">Konum Adı</label>
+                    <input type="text" id="locationName">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="latitude">Enlem</label>
+                        <input type="number" id="latitude" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Boylam</label>
+                        <input type="number" id="longitude" step="any">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrl">Görsel URL</label>
+                    <input type="url" id="imageUrl">
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="isActive" checked>
+                        Aktif
+                    </label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="events.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (auth.canCreate()) {
+                document.getElementById('addBtn').style.display = 'inline-flex';
+            }
+        });
+    </script>
+</body>
+</html>
+

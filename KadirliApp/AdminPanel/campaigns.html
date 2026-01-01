@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kampanyalar - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <a href="index.html" class="back-btn">← Ana Sayfa</a>
+                <div>
+                    <h1>🎯 Kampanyalar Yönetimi</h1>
+                    <p>Campaign CRUD İşlemleri</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="toolbar">
+                <button class="btn btn-primary" id="addBtn" onclick="openAddModal()" style="display: none;">
+                    ➕ Yeni Kampanya Ekle
+                </button>
+                <button class="btn btn-secondary" onclick="loadCampaigns()">
+                    🔄 Yenile
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table id="campaignsTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Başlık</th>
+                            <th>İşletme</th>
+                            <th>İndirim Kodu</th>
+                            <th>Oluşturulma</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="campaignsTableBody">
+                        <tr>
+                            <td colspan="6" class="loading">Yükleniyor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Yeni Kampanya Ekle</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="campaignForm" onsubmit="saveCampaign(event)">
+                <input type="hidden" id="campaignId">
+                
+                <div class="form-group">
+                    <label for="title">Başlık *</label>
+                    <input type="text" id="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="businessName">İşletme Adı *</label>
+                    <input type="text" id="businessName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Açıklama</label>
+                    <textarea id="description" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="discountCode">İndirim Kodu</label>
+                    <input type="text" id="discountCode">
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrls">Görsel URL'leri (JSON Array veya virgülle ayrılmış)</label>
+                    <textarea id="imageUrls" rows="3" placeholder='["url1", "url2"] veya url1, url2'></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="campaigns.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (auth.canCreate()) {
+                document.getElementById('addBtn').style.display = 'inline-flex';
+            }
+        });
+    </script>
+</body>
+</html>
+

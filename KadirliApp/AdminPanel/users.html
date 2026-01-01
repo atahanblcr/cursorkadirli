@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Yönetimi - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <a href="index.html" class="back-btn">← Ana Sayfa</a>
+                <div>
+                    <h1>👥 Kullanıcı Yönetimi</h1>
+                    <p>User Management (Sadece Admin)</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="toolbar">
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    ➕ Yeni Kullanıcı Ekle
+                </button>
+                <button class="btn btn-secondary" onclick="loadUsers()">
+                    🔄 Yenile
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table id="usersTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>Rol</th>
+                            <th>Oluşturulma</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr>
+                            <td colspan="5" class="loading">Yükleniyor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Yeni Kullanıcı Ekle</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="userForm" onsubmit="saveUser(event)">
+                <input type="hidden" id="userId">
+                
+                <div class="form-group">
+                    <label for="username">Kullanıcı Adı *</label>
+                    <input type="text" id="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" id="passwordLabel">Şifre *</label>
+                    <input type="password" id="password">
+                    <small style="color: var(--text-light);">(Düzenlemede boş bırakılırsa şifre değiştirilmez)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Rol *</label>
+                    <select id="role" required>
+                        <option value="0">Admin - Tüm yetkiler, kullanıcı yönetimi</option>
+                        <option value="1">ReadOnly Admin - Sadece görüntüleme</option>
+                        <option value="2">Creator - Görüntüleme ve düzenleme</option>
+                        <option value="3">Deletor - Görüntüleme ve silme</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="users.js"></script>
+</body>
+</html>
+

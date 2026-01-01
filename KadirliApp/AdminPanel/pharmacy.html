@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eczaneler - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <a href="index.html" class="back-btn">← Ana Sayfa</a>
+                <div>
+                    <h1>💊 Eczaneler Yönetimi</h1>
+                    <p>Pharmacy CRUD İşlemleri</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="toolbar">
+                <button class="btn btn-primary" id="addBtn" onclick="openAddModal()" style="display: none;">
+                    ➕ Yeni Eczane Ekle
+                </button>
+                <button class="btn btn-secondary" onclick="loadPharmacies()">
+                    🔄 Yenile
+                </button>
+                <input type="date" id="filterDate" class="filter-select" onchange="loadPharmacies()" placeholder="Nöbet Tarihi">
+            </div>
+
+            <div class="table-container">
+                <table id="pharmacyTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Eczane Adı</th>
+                            <th>Telefon</th>
+                            <th>Adres</th>
+                            <th>Bölge</th>
+                            <th>Nöbet Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pharmacyTableBody">
+                        <tr>
+                            <td colspan="7" class="loading">Yükleniyor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Yeni Eczane Ekle</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="pharmacyForm" onsubmit="savePharmacy(event)">
+                <input type="hidden" id="pharmacyId">
+                
+                <div class="form-group">
+                    <label for="name">Eczane Adı *</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefon</label>
+                    <input type="tel" id="phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Adres</label>
+                    <textarea id="address" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="region">Bölge *</label>
+                    <input type="text" id="region" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dutyDate">Nöbet Tarihi * (YYYY-MM-DD)</label>
+                    <input type="date" id="dutyDate" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="latitude">Enlem</label>
+                        <input type="number" id="latitude" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Boylam</label>
+                        <input type="number" id="longitude" step="any">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="pharmacy.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (auth.canCreate()) {
+                document.getElementById('addBtn').style.display = 'inline-flex';
+            }
+        });
+    </script>
+</body>
+</html>
+

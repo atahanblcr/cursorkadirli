@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vefat İlanları - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <a href="index.html" class="back-btn">← Ana Sayfa</a>
+                <div>
+                    <h1>📋 Vefat İlanları Yönetimi</h1>
+                    <p>DeathNotice CRUD İşlemleri</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="toolbar">
+                <button class="btn btn-primary" id="addBtn" onclick="openAddModal()" style="display: none;">
+                    ➕ Yeni Vefat İlanı Ekle
+                </button>
+                <button class="btn btn-secondary" onclick="loadDeathNotices()">
+                    🔄 Yenile
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table id="deathNoticesTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ad Soyad</th>
+                            <th>Vefat Tarihi</th>
+                            <th>Defin Yeri</th>
+                            <th>Defin Saati</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deathNoticesTableBody">
+                        <tr>
+                            <td colspan="6" class="loading">Yükleniyor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Yeni Vefat İlanı Ekle</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="deathNoticeForm" onsubmit="saveDeathNotice(event)">
+                <input type="hidden" id="deathNoticeId">
+                
+                <div class="form-group">
+                    <label for="firstName">Ad *</label>
+                    <input type="text" id="firstName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Soyad *</label>
+                    <input type="text" id="lastName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="deathDate">Vefat Tarihi * (YYYY-MM-DD)</label>
+                    <input type="date" id="deathDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="burialPlace">Defin Yeri</label>
+                    <input type="text" id="burialPlace">
+                </div>
+
+                <div class="form-group">
+                    <label for="burialTime">Defin Saati (HH:mm:ss)</label>
+                    <input type="time" id="burialTime" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="condolenceAddress">Taziye Adresi</label>
+                    <textarea id="condolenceAddress" rows="3"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="latitude">Enlem</label>
+                        <input type="number" id="latitude" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Boylam</label>
+                        <input type="number" id="longitude" step="any">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrl">Görsel URL</label>
+                    <input type="url" id="imageUrl">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="death-notices.js"></script>
+    <script>
+        // Yetki kontrolleri
+        document.addEventListener('DOMContentLoaded', () => {
+            if (auth.canCreate()) {
+                document.getElementById('addBtn').style.display = 'inline-flex';
+            }
+        });
+    </script>
+</body>
+</html>
+
